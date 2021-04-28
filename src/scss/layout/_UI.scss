@@ -17,20 +17,16 @@ body{
         height: auto;
         @include telefono{
            height: 30rem;
-        }
-        
-    }
-
-
-}
-
-
-.tabs{
-    @include grid(3,1rem);
-
-    button{
-        padding: .5rem;
-        font-weight: 700;
-        border: none;
+        }   
     }
 }
+
+.seccion{
+    display: none;
+    margin-top: $separacion;
+
+    &:first-of-type{
+        display: block;
+    }
+}
+
