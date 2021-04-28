@@ -1,0 +1,36 @@
+body{
+    background-color: $negro;
+}
+
+.contenedor-salon{
+    @include grid(2,2rem);
+    height: 100vh;
+
+    @include telefono{
+        display: block;
+    }
+
+    .imagen{
+        background-image: url('../img/1.webp');
+        background-size: cover;
+        background-position: center center;
+        height: auto;
+        @include telefono{
+           height: 30rem;
+        }
+        
+    }
+
+
+}
+
+
+.tabs{
+    @include grid(3,1rem);
+
+    button{
+        padding: .5rem;
+        font-weight: 700;
+        border: none;
+    }
+}
