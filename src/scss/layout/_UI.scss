@@ -24,6 +24,7 @@ body{
 .seccion{
     display: none;
     margin-top: $separacion;
+    width: 97%;
 
     &:first-of-type{
         display: block;

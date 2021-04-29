@@ -1,0 +1,35 @@
+.servicios{
+    @include grid(2,1rem);
+
+    @include telefonoC{
+        display: block;
+    }
+
+    .divServicio{
+        background-color:$blanco;
+        padding: 2rem;
+        border-radius: 1rem;
+
+      @include telefonoC{
+          margin-bottom: 2rem;
+      }  
+    }
+
+     p{
+        
+         margin: 0 0 1rem 0;
+     }
+
+     .titulo_servicio{
+        color: $negro;
+        font-weight: $bold;
+
+
+     }
+
+     .precio_ser{
+        color: $azul;
+        font-size: 3rem;
+        font-weight: $bold
+     }
+}
