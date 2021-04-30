@@ -26,8 +26,9 @@ body{
     margin-top: $separacion;
     width: 97%;
 
-    &:first-of-type{
-        display: block;
-    }
 }
 
+
+.mostrar-seccion{
+    display: block !important;
+}

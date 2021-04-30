@@ -1,14 +1,54 @@
+let pagina=1;
 document.addEventListener('DOMContentLoaded',function(){
     Appinicio();
 });
 
 function Appinicio(){
-   obtenerDatos();
+//Funcion para obtener los datos 
+    obtenerDatos();
+
+ //Mostrar seccionactual
+    mostrarSeccion();  
+
+ //Funcion para cambiar la pagina    
+    cambiarPagina();
+
+}
+
+function mostrarSeccion(){
+    const seccionactual=document.querySelector(`#pagina-${pagina}`);
+          seccionactual.classList.add('mostrar-seccion');  
+
+}
+
+//Funcion para moverse entre paginas
+function cambiarPagina(){
+    const tabs= document.querySelectorAll(".tabs button");
+      
+    tabs.forEach(tab => {
+        tab.addEventListener('click',function(e){
+             e.preventDefault;   
+            pagina=parseInt(e.target.dataset.menu);
+
+            console.log(pagina);
+
+    //Eliminamos la seccion actual y agregamos la nueva
+      document.querySelector('.mostrar-seccion').classList.remove('mostrar-seccion');    
+
+    const seccion=document.querySelector(`#pagina-${pagina}`);
+          seccion.classList.add("mostrar-seccion");  
+          console.log(seccion);
+        });
+    });
 }
 
 
-//Obteniendo los datos
 
+
+
+
+
+//Obteniendo los datos
 async function obtenerDatos(){
 
     //Promise
@@ -26,9 +66,7 @@ async function obtenerDatos(){
    const resultado=await fetch("../../servicios.json");
    const datos= await resultado.json();
     // console.log(datos);
-
     const { servicios }=datos; 
-    console.log(servicios);
 
     //Generar Html
     servicios.forEach(servicio => {  
@@ -74,7 +112,7 @@ async function obtenerDatos(){
     }
 }
 
-
+//Funcion para seleccionar una cita
 function seleccionarDiv(e){
 let elemento;
 
