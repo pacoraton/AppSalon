@@ -10,8 +10,15 @@
         text-align: center;
         text-transform: uppercase;
 
+        &.tab_actual{
+            background-color: $azul;
+            color: $blanco;
+        }
+
         &:hover{
             cursor: pointer;
         }
     }
+
+
 }

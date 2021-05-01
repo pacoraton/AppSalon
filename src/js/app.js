@@ -17,7 +17,11 @@ function Appinicio(){
 
 function mostrarSeccion(){
     const seccionactual=document.querySelector(`#pagina-${pagina}`);
-          seccionactual.classList.add('mostrar-seccion');  
+          seccionactual.classList.add('mostrar-seccion'); 
+          
+      //Resaltar el tab en que estamos posicionados
+      const tabAct=document.querySelector(`[data-menu="${pagina}"]`);
+            tabAct.classList.add('tab_actual');    
 
 }
 
@@ -29,15 +33,23 @@ function cambiarPagina(){
         tab.addEventListener('click',function(e){
              e.preventDefault;   
             pagina=parseInt(e.target.dataset.menu);
+           
+            
 
-            console.log(pagina);
-
-    //Eliminamos la seccion actual y agregamos la nueva
+    //Eliminamos la seccion actual 
       document.querySelector('.mostrar-seccion').classList.remove('mostrar-seccion');    
 
+    //Se muestra la seccion seleccionada        
     const seccion=document.querySelector(`#pagina-${pagina}`);
           seccion.classList.add("mostrar-seccion");  
-          console.log(seccion);
+         
+     //Se desactiva el tab anterior
+     document.querySelector('.tab_actual').classList.remove('tab_actual');
+     
+     //Se activa el nuevo tab seleccionado
+     const tabActual=document.querySelector(`[data-menu="${pagina}"]`);
+     tabActual.classList.add('tab_actual');  
+
         });
     });
 }
