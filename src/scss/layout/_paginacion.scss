@@ -1,0 +1,15 @@
+.paginacion{
+    display: flex;
+    justify-content: space-between;
+    button{
+        background-color: $azul;
+        padding: 1rem 2rem;
+        color: $blanco;
+        font-weight: $bold;
+        cursor: pointer;
+        margin: $separacion/2 $separacion/2;
+        font-size: 2rem;
+        border: none;
+        border-radius: 10px;
+    }
+}
