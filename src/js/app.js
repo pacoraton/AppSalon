@@ -13,15 +13,75 @@ function Appinicio(){
  //Funcion para cambiar la pagina    
     cambiarPagina();
 
+ //Funcion Paginaci
+  paginacion();  
+
+  //Funcion para comprobar en que pagina se encuentra para mostrar botones paginacion
+  comprobarPagina();
+}
+
+
+//notones paginador
+function comprobarPagina(){
+    const anterior=document.querySelector('#anterior');
+    const siguiente=document.querySelector('#siguiente');
+
+    if (pagina===1){
+        anterior.classList.add('ocultar');
+        siguiente.classList.remove('ocultar');
+    }else if(pagina===3){
+        siguiente.classList.add('ocultar');
+        anterior.classList.remove('ocultar');
+       
+    }else{
+        anterior.classList.remove('ocultar');
+        siguiente.classList.remove('ocultar');
+    }
+
+    mostrarSeccion();//cambia la seccion que se muestra
+
+}
+
+//botones
+function paginacion(){
+    const anterior=document.querySelector('#anterior').addEventListener("click",function(){
+        pagina--;
+        console.log(pagina);
+        comprobarPagina();
+    });
+
+    const siguiente=document.querySelector('#siguiente').addEventListener("click",function(){
+        pagina++;
+        console.log(pagina);
+        comprobarPagina();
+  
+    });
+
+ 
 }
 
 function mostrarSeccion(){
+    //Eliminamos la seccion actual 
+    const seccionAnterior=document.querySelector('.mostrar-seccion');
+    if(seccionAnterior){
+        seccionAnterior.classList.remove('mostrar-seccion');  
+    }
+      
+    //Mostramos la seccion en la que estamos
     const seccionactual=document.querySelector(`#pagina-${pagina}`);
           seccionactual.classList.add('mostrar-seccion'); 
           
-      //Resaltar el tab en que estamos posicionados
-      const tabAct=document.querySelector(`[data-menu="${pagina}"]`);
-            tabAct.classList.add('tab_actual');    
+  //eliminar el tab anterior
+   const tabAnterior=document.querySelector('.tab_actual');
+      console.log(tabAnterior);
+         if(tabAnterior){
+             tabAnterior.classList.remove('tab_actual');  
+         }
+            
+     //Se resalta el tab actual
+    const tab=document.querySelector(`[data-menu="${pagina}"]`);
+    tab.classList.add('tab_actual');
+     
 
 }
 
@@ -34,21 +94,18 @@ function cambiarPagina(){
              e.preventDefault;   
             pagina=parseInt(e.target.dataset.menu);
            
-            
-
-    //Eliminamos la seccion actual 
-      document.querySelector('.mostrar-seccion').classList.remove('mostrar-seccion');    
 
     //Se muestra la seccion seleccionada        
-    const seccion=document.querySelector(`#pagina-${pagina}`);
-          seccion.classList.add("mostrar-seccion");  
+    //const seccion=document.querySelector(`#pagina-${pagina}`);
+          //seccion.classList.add("mostrar-seccion");  
          
-     //Se desactiva el tab anterior
-     document.querySelector('.tab_actual').classList.remove('tab_actual');
-     
+    
      //Se activa el nuevo tab seleccionado
-     const tabActual=document.querySelector(`[data-menu="${pagina}"]`);
-     tabActual.classList.add('tab_actual');  
+     //const tabActual=document.querySelector(`[data-menu="${pagina}"]`);
+     //tabActual.classList.add('tab_actual');  
+
+     mostrarSeccion();
+     comprobarPagina();
 
         });
     });
