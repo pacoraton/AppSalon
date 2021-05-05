@@ -1,5 +1,6 @@
 
 .tabs{
+    width: 95%;
     @include grid(3,1rem);
 
     button{

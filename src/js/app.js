@@ -1,23 +1,36 @@
 let pagina=1;
+
+const cita={
+    nombre:"",
+    fecha:"",
+    hora:"",
+    servicios:[]
+}
+
 document.addEventListener('DOMContentLoaded',function(){
     Appinicio();
 });
 
 function Appinicio(){
-//Funcion para obtener los datos 
+  //Funcion para obtener los datos 
     obtenerDatos();
 
- //Mostrar seccionactual
+  //Mostrar seccion actual  
     mostrarSeccion();  
 
- //Funcion para cambiar la pagina    
+  //Funcion que oculta o muestra una secicon segun el tab al que se presiona    
     cambiarPagina();
 
- //Funcion Paginaci
+  //Funcion paginacion siguiente y anterior
   paginacion();  
 
   //Funcion para comprobar en que pagina se encuentra para mostrar botones paginacion
   comprobarPagina();
+
+  //Funcion que muestra error si no se han completado correctamente la cita
+  resumenCita();
+
+
 }
 
 
@@ -46,13 +59,13 @@ function comprobarPagina(){
 function paginacion(){
     const anterior=document.querySelector('#anterior').addEventListener("click",function(){
         pagina--;
-        console.log(pagina);
+        //console.log(pagina);
         comprobarPagina();
     });
 
     const siguiente=document.querySelector('#siguiente').addEventListener("click",function(){
         pagina++;
-        console.log(pagina);
+        //console.log(pagina);
         comprobarPagina();
   
     });
@@ -73,7 +86,7 @@ function mostrarSeccion(){
           
   //eliminar el tab anterior
    const tabAnterior=document.querySelector('.tab_actual');
-      console.log(tabAnterior);
+      //console.log(tabAnterior);
          if(tabAnterior){
              tabAnterior.classList.remove('tab_actual');  
          }
@@ -110,12 +123,6 @@ function cambiarPagina(){
         });
     });
 }
-
-
-
-
-
-
 
 //Obteniendo los datos
 async function obtenerDatos(){
@@ -193,10 +200,68 @@ let elemento;
   }
 
    if(elemento.classList.contains("seleccionado")){
+      
+    //Deseleccionamos cita
        elemento.classList.remove("seleccionado");
+     
+     //Identificamos el id de servicio a eliminar   
+     const EliminarId=(parseInt(elemento.dataset.idServicio));      
+        EliminarServicio(EliminarId); 
 
    }else{
+        //Seleccionamos cita
         elemento.classList.add("seleccionado")
+
+        //console.log(elemento.firstChild.nextSibling.textContent);
+       //Creamos el objeto con los datos del servicio seleccionado
+        const SerObj={
+            id:parseInt(elemento.dataset.idServicio),
+            nombre:elemento.firstElementChild.textContent,
+            precio:elemento.firstElementChild.nextElementSibling.textContent
+        }   
+        //console.log(SerObj);  
+        AgregarServicio(SerObj);
    }
-    console.log(elemento);
+    //console.log(elemento);
  }
+
+
+//Resumen cita
+function resumenCita(){
+ if(Object.values(cita).includes("")){
+
+    //Seleccionamos el div
+    const ConRes=document.querySelector(".contenedor-resumen");
+    
+    //Creamos el mensaje
+    const MenRes=document.createElement('P');
+          MenRes.textContent="Faltan datos de Servicios,hora,fecha o nombre";
+          MenRes.classList.add("mensaje_resumen");
+
+         ConRes.appendChild(MenRes); 
+
+ }
+}
+
+
+function AgregarServicio(Objeto){
+
+  //Destructuring
+ const { servicios }=cita;
+
+ //Combinamos el objeto con el servicio al servicios de la cita
+ cita.servicios= [...servicios,Objeto];
+
+    console.log(cita);
+    //console.log("Se agrega un servicio");
+
+}
+
+function EliminarServicio(id){
+//Destructuring   
+const { servicios }=cita;
+
+cita.servicios=servicios.filter(item => item.id !==id); 
+console.log(cita);
+
+}
