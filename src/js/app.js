@@ -30,6 +30,8 @@ function Appinicio(){
   //Funcion que muestra error si no se han completado correctamente la cita
   resumenCita();
 
+  //Funcion que valida el nombre en la cita
+  nombreCita();
 
 }
 
@@ -264,4 +266,20 @@ const { servicios }=cita;
 cita.servicios=servicios.filter(item => item.id !==id); 
 console.log(cita);
 
+}
+
+function nombreCita(){
+    const nombre=document.querySelector('#nombre');
+            nombre.addEventListener('input',(e)=> {
+             const nombreTexto=e.target.value.trim();       
+
+                if(nombreTexto==="" || nombreTexto.length <3){
+                    console.log("Error en nombre");
+                }else{
+                    console.log("Correcto");
+                    cita.nombre=e.target.value.trim();
+                }
+               
+                  //console.log(cita);
+            });
 }
