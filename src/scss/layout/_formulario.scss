@@ -19,3 +19,13 @@
        
    }
 }
+
+.alerta{
+    padding: 1rem;
+    color:$blanco;
+    
+
+    &.error{
+        background-color: red;
+    }
+}

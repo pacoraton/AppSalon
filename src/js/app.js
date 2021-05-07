@@ -274,12 +274,47 @@ function nombreCita(){
              const nombreTexto=e.target.value.trim();       
 
                 if(nombreTexto==="" || nombreTexto.length <3){
-                    console.log("Error en nombre");
+                    alertaError("Error en nombre","error");
                 }else{
-                    console.log("Correcto");
+                     const alerta=document.querySelector(".alerta");   
+                     if(alerta){
+                         alerta.remove();
+                     }    
+
+                    //console.log("Correcto");
                     cita.nombre=e.target.value.trim();
                 }
                
                   //console.log(cita);
             });
+}
+
+
+
+function alertaError(mensaje,tipo){  
+    
+//Si hay una alerta la borra
+const alertaPrevia=document.querySelector(".alerta");
+        if(alertaPrevia){
+            return;
+        }
+
+    console.log(mensaje);
+    const alerta=document.createElement('DIV');
+          alerta.textContent="Error en el nombre";
+          alerta.classList.add('alerta');
+
+          if(tipo=="error"){
+              alerta.classList.add('error');
+          }
+
+    const formulario=document.querySelector(".formulario");
+          formulario.appendChild(alerta);
+
+//Borrar la alerta a los tres sefundos
+ setTimeout(() => {
+        alerta.remove();
+ }, 3000);
+
+
 }
