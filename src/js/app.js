@@ -35,6 +35,9 @@ function Appinicio(){
 
   //Funcion para validar la fecha
   fechaCita();
+
+  //Desahabilitat dias anteriores 
+  deshabilitarFechaAnterior();
 }
 
 
@@ -336,4 +339,25 @@ function fechaCita(){
             }
                
           });
+}
+
+
+function deshabilitarFechaAnterior(){
+
+const fecha=document.querySelector("#fecha");
+
+const FechaActual= new Date();
+
+//Formato requerido AAAA-MM-DD
+
+const year=FechaActual.getFullYear();
+const mes=FechaActual.getMonth()+1;
+const dia=FechaActual.getDate()+1;
+
+const FechaDeshabilitar=`${year}-${mes < 10 ? `0${mes}` : mes}-${dia < 10 ? `0${dia}` : dia}`
+//                      `${year}-${mes < 10 ? `0${mes}` : mes}-${dia}`;
+
+console.log(FechaDeshabilitar);
+
+fecha.min=FechaDeshabilitar;
 }
