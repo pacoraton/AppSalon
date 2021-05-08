@@ -38,6 +38,9 @@ function Appinicio(){
 
   //Desahabilitat dias anteriores 
   deshabilitarFechaAnterior();
+
+  //Validar hora
+  horaCita();
 }
 
 
@@ -52,6 +55,8 @@ function comprobarPagina(){
     }else if(pagina===3){
         siguiente.classList.add('ocultar');
         anterior.classList.remove('ocultar');
+
+        resumenCita();//Estamos en la pagina 3 mostramos el resumen de la cita
        
     }else{
         anterior.classList.remove('ocultar');
@@ -233,21 +238,30 @@ let elemento;
  }
 
 
-//Resumen cita
+//Mostrar resumen
 function resumenCita(){
- if(Object.values(cita).includes("")){
+    if(Object.values(cita).includes("")){
 
-    //Seleccionamos el div
-    const ConRes=document.querySelector(".contenedor-resumen");
-    
-    //Creamos el mensaje
-    const MenRes=document.createElement('P');
-          MenRes.textContent="Faltan datos de Servicios,hora,fecha o nombre";
-          MenRes.classList.add("mensaje_resumen");
+        //Seleccionamos el div
+        const ConRes=document.querySelector(".contenedor-resumen");
 
-         ConRes.appendChild(MenRes); 
+        //Limpiamos html
 
- }
+        while(ConRes.firstChild){
+            ConRes.removeChild(ConRes.firstChild);
+        }
+        
+        //Creamos el mensaje
+        const MenRes=document.createElement('P');
+            MenRes.textContent="Faltan datos de Servicios,hora,fecha o nombre";
+            MenRes.classList.add("mensaje_resumen");
+
+            ConRes.appendChild(MenRes); 
+
+    }else{
+
+        console.log("resument de la cita");
+    }
 }
 
 
@@ -279,6 +293,7 @@ function nombreCita(){
              const nombreTexto=e.target.value.trim();       
 
                 if(nombreTexto==="" || nombreTexto.length <3){
+                    e.preventDefault();
                     alertaError("Error en nombre","error");
                 }else{
                      const alerta=document.querySelector(".alerta");   
@@ -298,29 +313,29 @@ function nombreCita(){
 
 function alertaError(mensaje,tipo){  
     
-//Si hay una alerta anterior no crea otra
-const alertaPrevia=document.querySelector(".alerta");
-        if(alertaPrevia){
-            return;
-        }
+    //Si hay una alerta anterior no crea otra
+    const alertaPrevia=document.querySelector(".alerta");
+            if(alertaPrevia){
+                return;
+            }
 
-    //console.log(mensaje);
+        //console.log(mensaje);
     //Creamos la alertaa 
     const alerta=document.createElement('DIV');
           alerta.textContent=mensaje;
           alerta.classList.add('alerta');
 
-          if(tipo=="error"){
-              alerta.classList.add('error');
-          }
-//insertar al html
+            if(tipo=="error"){
+                alerta.classList.add('error');
+            }
+    //insertar al html
     const formulario=document.querySelector(".formulario");
           formulario.appendChild(alerta);
 
-//Borrar la alerta a los tres segundos
- setTimeout(() => {
-        alerta.remove();
- }, 3000);
+    //Borrar la alerta a los tres segundos
+    setTimeout(() => {
+            alerta.remove();
+    }, 3000);
 
 
 }
@@ -330,12 +345,15 @@ const alertaPrevia=document.querySelector(".alerta");
 function fechaCita(){
     const fecha=document.querySelector("#fecha");
           fecha.addEventListener("input", (e) =>{
-            const Fecha= new Date(e.target.value).getUTCDay(); 
+            const dia= new Date(e.target.value).getUTCDay(); 
 
-            if([0,6].includes(Fecha)){
+            if([0,6].includes(dia)){
                 alertaError("No puedes seleccionar fines de semana","error");
+                e.preventDefault();
+                fecha.value="";
             }else{
-                console.log(Fecha);
+                //console.log(Fecha);
+                cita.fecha=fecha.value;
             }
                
           });
@@ -344,20 +362,45 @@ function fechaCita(){
 
 function deshabilitarFechaAnterior(){
 
-const fecha=document.querySelector("#fecha");
+    const fecha=document.querySelector("#fecha");
 
-const FechaActual= new Date();
+    const FechaActual= new Date();
 
-//Formato requerido AAAA-MM-DD
+    //Formato requerido AAAA-MM-DD
 
-const year=FechaActual.getFullYear();
-const mes=FechaActual.getMonth()+1;
-const dia=FechaActual.getDate()+1;
+    const year=FechaActual.getFullYear();
+    const mes=FechaActual.getMonth()+1;
+    const dia=FechaActual.getDate()+1;
 
-const FechaDeshabilitar=`${year}-${mes < 10 ? `0${mes}` : mes}-${dia < 10 ? `0${dia}` : dia}`
-//                      `${year}-${mes < 10 ? `0${mes}` : mes}-${dia}`;
+    const FechaDeshabilitar=`${year}-${mes < 10 ? `0${mes}` : mes}-${dia < 10 ? `0${dia}` : dia}`
+    //`${year}-${mes < 10 ? `0${mes}` : mes}-${dia}`;
 
-console.log(FechaDeshabilitar);
+    //console.log(FechaDeshabilitar);
 
-fecha.min=FechaDeshabilitar;
+    fecha.min=FechaDeshabilitar;
 }
+
+
+function horaCita(){
+
+    const hora=document.querySelector("#hora");
+          hora.addEventListener("input",e =>{
+           
+            const Hora=e.target.value;
+            const HORA=Hora.split(":");
+
+
+            if(HORA[0]<10 || HORA[0]>18){
+                alertaError("Seleciona una hora correcta","error");
+                hora.value="";  
+            }else{
+                cita.hora=Hora;
+                console.log(cita);
+            }   
+    });    
+
+
+
+}
+
+
