@@ -33,6 +33,8 @@ function Appinicio(){
   //Funcion que valida el nombre en la cita
   nombreCita();
 
+  //Funcion para validar la fecha
+  fechaCita();
 }
 
 
@@ -293,28 +295,45 @@ function nombreCita(){
 
 function alertaError(mensaje,tipo){  
     
-//Si hay una alerta la borra
+//Si hay una alerta anterior no crea otra
 const alertaPrevia=document.querySelector(".alerta");
         if(alertaPrevia){
             return;
         }
 
-    console.log(mensaje);
+    //console.log(mensaje);
+    //Creamos la alertaa 
     const alerta=document.createElement('DIV');
-          alerta.textContent="Error en el nombre";
+          alerta.textContent=mensaje;
           alerta.classList.add('alerta');
 
           if(tipo=="error"){
               alerta.classList.add('error');
           }
-
+//insertar al html
     const formulario=document.querySelector(".formulario");
           formulario.appendChild(alerta);
 
-//Borrar la alerta a los tres sefundos
+//Borrar la alerta a los tres segundos
  setTimeout(() => {
         alerta.remove();
  }, 3000);
 
 
+}
+
+
+
+function fechaCita(){
+    const fecha=document.querySelector("#fecha");
+          fecha.addEventListener("input", (e) =>{
+            const Fecha= new Date(e.target.value).getUTCDay(); 
+
+            if([0,6].includes(Fecha)){
+                alertaError("No puedes seleccionar fines de semana","error");
+            }else{
+                console.log(Fecha);
+            }
+               
+          });
 }
