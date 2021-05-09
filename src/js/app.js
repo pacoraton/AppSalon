@@ -240,17 +240,20 @@ let elemento;
 
 //Mostrar resumen
 function resumenCita(){
+    //Destructuring
+    const {nombre,fecha,hora,servicios}=cita;
+
+    //Seleccionamos el div
+    const ConRes=document.querySelector(".contenedor-resumen");
+
+    //Limpiamos html
+    while(ConRes.firstChild){
+        ConRes.removeChild(ConRes.firstChild);
+    }
+
+    //Validacion de objeto
     if(Object.values(cita).includes("")){
 
-        //Seleccionamos el div
-        const ConRes=document.querySelector(".contenedor-resumen");
-
-        //Limpiamos html
-
-        while(ConRes.firstChild){
-            ConRes.removeChild(ConRes.firstChild);
-        }
-        
         //Creamos el mensaje
         const MenRes=document.createElement('P');
             MenRes.textContent="Faltan datos de Servicios,hora,fecha o nombre";
@@ -260,7 +263,64 @@ function resumenCita(){
 
     }else{
 
-        console.log("resument de la cita");
+        //heading cita
+        const heading_cita= document.createElement('H3');
+              heading_cita.textContent='Resumen cita';
+
+        //Agregamos los campos de la cita
+        const nombreCita=document.createElement("P");
+              nombreCita.innerHTML=`<span>Nombre:</span>${nombre}`;
+
+        const fechaCita=document.createElement("P");
+              fechaCita.innerHTML=`<span>Fecha:</span>${fecha}`;
+        
+        const horaCita=document.createElement("P");
+              horaCita.innerHTML=`<span>Hora:</span>${hora}`;  
+              
+        const ServiciosCita=document.createElement('DIV');
+              ServiciosCita.classList.add('resumen-servicios');
+              
+        const heading_servicios=document.createElement('H3');
+              heading_servicios.textContent="Resumen Servicios";      
+
+         ServiciosCita.appendChild(heading_servicios);
+        //Destructuring del arreglo en el objeto
+        //const {nombre,precio}=servicios;
+
+        //Creamos los servicios al html
+        servicios.forEach(servicio => {
+             
+           //Creamos div para los servicios
+          const Contenedor_Servicios=document.createElement('DIV'); 
+                Contenedor_Servicios.classList.add('contenedor-servicio');  
+
+          const textoServicio=document.createElement('P');
+                textoServicio.textContent=servicio.nombre;
+               // console.log(servicioNombre);
+
+          const precioServicio=document.createElement('P');
+                precioServicio.textContent=servicio.precio;
+                precioServicio.classList.add('precio');
+               // console.log(servicioPrecio);
+
+            Contenedor_Servicios.appendChild(textoServicio);
+            Contenedor_Servicios.appendChild(precioServicio);  
+            
+            ServiciosCita.appendChild(Contenedor_Servicios);
+
+        }); 
+
+            
+               //Inyectamos html
+               ConRes.appendChild(heading_cita);
+               ConRes.appendChild(nombreCita);
+               ConRes.appendChild(fechaCita);
+               ConRes.appendChild(horaCita);   
+               
+               ConRes.appendChild(ServiciosCita);
+                
+               
+        console.log(cita);
     }
 }
 
