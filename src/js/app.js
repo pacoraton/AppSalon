@@ -5,7 +5,7 @@ const cita={
     fecha:"",
     hora:"",
     servicios:[]
-}
+};
 
 document.addEventListener('DOMContentLoaded',function(){
     Appinicio();
@@ -196,7 +196,7 @@ async function obtenerDatos(){
    });
         
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
 
@@ -222,7 +222,7 @@ let elemento;
 
    }else{
         //Seleccionamos cita
-        elemento.classList.add("seleccionado")
+        elemento.classList.add("seleccionado");
 
         //console.log(elemento.firstChild.nextSibling.textContent);
        //Creamos el objeto con los datos del servicio seleccionado
@@ -230,7 +230,7 @@ let elemento;
             id:parseInt(elemento.dataset.idServicio),
             nombre:elemento.firstElementChild.textContent,
             precio:elemento.firstElementChild.nextElementSibling.textContent
-        }   
+        };   
         //console.log(SerObj);  
         AgregarServicio(SerObj);
    }
@@ -287,6 +287,9 @@ function resumenCita(){
         //Destructuring del arreglo en el objeto
         //const {nombre,precio}=servicios;
 
+        let cantidadTotal=0;
+
+
         //Creamos los servicios al html
         servicios.forEach(servicio => {
              
@@ -303,6 +306,11 @@ function resumenCita(){
                 precioServicio.classList.add('precio');
                // console.log(servicioPrecio);
 
+        const totalServicio=servicio.precio.split('$');
+              cantidadTotal+=parseInt(totalServicio[1].trim());
+ 
+              console.log(cantidadTotal);
+
             Contenedor_Servicios.appendChild(textoServicio);
             Contenedor_Servicios.appendChild(precioServicio);  
             
@@ -318,9 +326,15 @@ function resumenCita(){
                ConRes.appendChild(horaCita);   
                
                ConRes.appendChild(ServiciosCita);
-                
+
+
+               const cantidadPagar=document.createElement('P');
+                     cantidadPagar.classList.add('total_pagar');
+                    cantidadPagar.innerHTML=`<span>Total a pagar</span>$ ${cantidadTotal}`;
+
+              ConRes.appendChild(cantidadPagar);      
                
-        console.log(cita);
+        //console.log(cita);
     }
 }
 
@@ -432,7 +446,7 @@ function deshabilitarFechaAnterior(){
     const mes=FechaActual.getMonth()+1;
     const dia=FechaActual.getDate()+1;
 
-    const FechaDeshabilitar=`${year}-${mes < 10 ? `0${mes}` : mes}-${dia < 10 ? `0${dia}` : dia}`
+    const FechaDeshabilitar=`${year}-${mes < 10 ? `0${mes}` : mes}-${dia < 10 ? `0${dia}` : dia}`;
     //`${year}-${mes < 10 ? `0${mes}` : mes}-${dia}`;
 
     //console.log(FechaDeshabilitar);

@@ -30,3 +30,12 @@
     }
   }  
 }
+
+.total_pagar{
+    text-align: right;
+    span{
+        color: $azul;
+        font-weight: $bold;
+        font-size: 2 rem;
+    }
+}
